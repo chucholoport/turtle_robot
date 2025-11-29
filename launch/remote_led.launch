@@ -33,10 +33,11 @@ Objetivo didáctico:
     <!-- Nodo rosserial para comunicar ROS con Arduino Uno -->
     <node pkg="rosserial_python" type="serial_node.py" name="rosserial_node" output="screen">
         <!-- Ajusta el puerto según tu VM/Arduino -->
-        <param name="port" value="/dev/arduino"/>
+        <!-- Opciones comunes: /dev/ttyUSB0, /dev/ttyACM0, /dev/arduino -->
+        <param name="port" value="/dev/ttyUSB0"/>
         <param name="baud" value="57600"/>
     </node>
 
-    <!-- Nodo Python que publica mensajes Bool en /toggle_led -->
+    <!-- CAMBIO IMPORTANTE: Ahora apunta a remote_led.py en lugar de toggle_led.py -->
     <node pkg="turtle_robot" type="remote_led.py" name="remote_led_publisher" output="screen"/>
 </launch>
