@@ -1,0 +1,49 @@
+<!--
+Proyecto: Turtle Robot – Control completo desde ROS hacia Arduino
+Autor: Jesús López
+Fecha: 25/11/2025
+
+Descripción:
+Este archivo launch de ROS arranca dos nodos:
+
+1. El puente rosserial_python que conecta ROS con el Arduino
+   (UNO o Mega 2560) por USB.
+2. El script turtle_robot.py que:
+   - Publica mensajes geometry_msgs/Twist en /cmd_vel.
+   - Se suscribe a /wheel_rpm para leer las RPM calculadas
+     por el Arduino.
+
+Entorno:
+- Ubuntu 20.04
+- ROS Noetic
+- Arduino UNO / Mega 2560 con rosserial_arduino
+- Paquete turtle_robot
+
+Flujo ROS:
+1. rosserial_python abre el puerto serial (/dev/arduino).
+2. turtle_robot.py publica velocidades en /cmd_vel.
+3. El Arduino controla los motores.
+4. El Arduino publica /wheel_rpm.
+5. turtle_robot.py recibe y muestra las RPM en consola.
+
+Ejemplo de ejecución:
+    roslaunch turtle_robot turtle_robot.launch
+
+Objetivo didáctico:
+- Orquestar control + retroalimentación en un solo launch.
+- Integrar publisher y subscriber en un sistema físico real.
+- Validar comunicación bidireccional ROS ↔ Arduino.
+-->
+
+<launch>
+
+    <!-- Nodo rosserial para comunicar ROS con Arduino -->
+    <node pkg="rosserial_python" type="serial_node.py" name="rosserial_node" output="screen">
+        <param name="port" value="/dev/arduino"/>
+        <param name="baud" value="57600"/>
+    </node>
+
+    <!-- Nodo principal del robot diferencial -->
+    <node pkg="turtle_robot" type="turtle_robot.py" name="turtle_robot_node" output="screen"/>
+
+</launch>

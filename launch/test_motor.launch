@@ -1,0 +1,45 @@
+<!--
+Proyecto: Test Motor desde ROS hacia Arduino
+Autor: Jesús López
+Fecha: 25/11/2025
+
+Descripción:
+Este archivo launch de ROS arranca dos nodos:
+1. El puente rosserial_python que conecta ROS con el Arduino por USB.
+2. El script test_motor.py que publica mensajes geometry_msgs/Twist
+   en el tópico /cmd_vel.
+
+Entorno:
+- Ubuntu 20.04
+- ROS Noetic
+- Arduino Uno/Mega 2560
+- rosserial_arduino
+- Paquete turtle_robot con scripts en Python
+
+Flujo ROS:
+1. El nodo rosserial_python abre el puerto serial (/dev/arduino).
+2. El nodo test_motor.py publica mensajes Twist en /cmd_vel.
+3. El Arduino, suscrito a /cmd_vel, activa los motores.
+4. El sistema completo se lanza con un solo comando roslaunch.
+
+Ejemplo de ejecución:
+    roslaunch turtle_robot test_motor.launch
+
+Objetivo didáctico:
+- Mostrar cómo un archivo launch orquesta múltiples nodos.
+- Practicar publisher → subscriber entre ROS y Arduino.
+- Validar el movimiento básico del robot diferencial.
+-->
+
+<launch>
+
+    <!-- Nodo rosserial para comunicar ROS con Arduino -->
+    <node pkg="rosserial_python" type="serial_node.py" name="rosserial_node" output="screen">
+        <param name="port" value="/dev/arduino"/>
+        <param name="baud" value="57600"/>
+    </node>
+
+    <!-- Nodo Python que publica Twist en /cmd_vel -->
+    <node pkg="turtle_robot" type="test_motor.py" name="test_motor_publisher" output="screen"/>
+
+</launch>
