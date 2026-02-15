@@ -39,7 +39,7 @@ Objetivo didáctico:
           args="0 0 0 0 0 0 base_footprint laser 100"/>
 
     <!-- Nodo RPLIDAR A1 -->
-    <node pkg="rplidar_ros" type="rplidar_a1" name="rplidar_node" output="screen">
+    <node pkg="rplidar_ros" type="rplidarNode" name="rplidar_node" output="screen">
         <param name="serial_port" value="/dev/rplidar"/>
         <param name="serial_baudrate" value="115200"/>
         <param name="frame_id" value="laser"/>
