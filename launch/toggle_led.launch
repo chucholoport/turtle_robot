@@ -31,12 +31,12 @@ Objetivo didáctico:
 
 <launch>
     <!-- Nodo rosserial para comunicar ROS con Arduino Uno -->
-    <node pkg="rosserial_python" type="serial_node.py" name="rosserial_node" output="screen">
+    <node pkg="rosserial_python" type="serial_node.py" name="arduino_mega" output="screen">
         <!-- Ajusta el puerto según tu VM/Arduino -->
         <param name="port" value="/dev/arduino"/>
         <param name="baud" value="57600"/>
     </node>
 
     <!-- Nodo Python que publica mensajes Bool en /toggle_led -->
-    <node pkg="turtle_robot" type="toggle_led.py" name="toggle_led_publisher" output="screen"/>
+    <node pkg="turtle_robot" type="toggle_led.py" name="switch_led" output="screen"/>
 </launch>

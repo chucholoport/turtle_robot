@@ -40,6 +40,10 @@ Objetivo didáctico:
 import rospy
 from std_msgs.msg import Bool
 
+def led_callback(pub, msg):
+    rospy.loginfo(f"Publicando LED: {msg.data}")
+    pub.publish(msg)
+
 def toggle_led():
     # Inicializa el nodo ROS
     rospy.init_node('toggle_led_publisher', anonymous=True)
@@ -47,19 +51,26 @@ def toggle_led():
     # Publisher en el tópico /toggle_led
     pub = rospy.Publisher('/toggle_led', Bool, queue_size=10)
 
-    rate = rospy.Rate(1)  # 1 Hz → un mensaje por segundo
-    state = True
-
+    rospy.loginfo("Type 'on' or 'off' to control LED")
+        
     while not rospy.is_shutdown():
-        msg = Bool()
-        msg.data = state
-        rospy.loginfo(f"Publicando LED: {msg.data}")
-        pub.publish(msg)
+        # Interfaz para usuario
+        command = input(">> ").strip().lower()
 
-        # Alterna el estado del LED
-        state = not state
+        # Encendido
+        if command == "on":
+            led_callback(pub, Bool(data=True))
+        # Apagado
+        elif command == "off":
+            led_callback(pub, Bool(data=False))
+        # Salida
+        elif command == "q":
+            rospy.loginfo("Saliendo.")
+            break
+        # Invalido
+        else:
+            rospy.logwarn("Invalid command. Use 'on' or 'off'")
 
-        rate.sleep()
 
 if __name__ == '__main__':
     try:

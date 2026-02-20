@@ -38,6 +38,28 @@ Objetivo didáctico:
 
 import rospy
 from geometry_msgs.msg import Twist
+from functools import partial
+
+# Variables globales para recordar último valor
+last_linear = None
+last_angular = None
+
+def cmd_callback(pub, msg):
+    global last_linear, last_angular
+
+    lin = msg.linear.x
+    ang = msg.angular.z
+
+    # Publicar solo si cambió respecto al último valor
+    if lin != last_linear or ang != last_angular:
+        rospy.loginfo(f"Recibido cmd_vel: linear.x={lin:.2f} angular.z={ang:.2f}")
+        pub.publish(msg)
+        last_linear, last_angular = lin, ang
+        
+    # Filtrar silencios redundantes (mensajes con 0 por latencia)
+    if lin == 0.0 and ang == 0.0:
+        return
+
 
 def test_motor():
     # Inicializa el nodo ROS
@@ -46,18 +68,22 @@ def test_motor():
     # Publisher en el tópico /cmd_vel
     pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 
-    rate = rospy.Rate(1)  # 1 Hz → un mensaje por segundo
+    # Subscriber → comandos desde teleop_keyboard
+    rospy.Subscriber('/cmd_vel', Twist, partial(cmd_callback, pub))
 
-    while not rospy.is_shutdown():
-        msg = Twist()
-        msg.linear.x = 1.0   # valor positivo → motor siempre ON
-        msg.angular.z = 0.0  # sin giro angular
-        rospy.loginfo(f"Publicando cmd_vel: linear.x={msg.linear.x}")
-        pub.publish(msg)
-        rate.sleep()
+    # rate = rospy.Rate(1)  # 1 Hz → un mensaje por segundo
+
+    # while not rospy.is_shutdown():
+    #     msg = Twist()
+    #     msg.linear.x = 1.0   # valor positivo → motor siempre ON
+    #     msg.angular.z = 0.0  # sin giro angular
+    #     rospy.loginfo(f"Publicando cmd_vel: linear.x={msg.linear.x}")
+    #     pub.publish(msg)
+    #     rate.sleep()
 
 if __name__ == '__main__':
     try:
         test_motor()
+        rospy.spin()
     except rospy.ROSInterruptException:
         pass

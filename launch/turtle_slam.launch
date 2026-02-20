@@ -31,21 +31,11 @@ Objetivo didáctico:
 - Observar LaserScan, Pose y mapa generado en RViz.
 - Practicar la generación de mapas para robots reales.
 -->
-
 <launch>
 
     <!-- Transform estático base_footprint → laser -->
     <node pkg="tf" type="static_transform_publisher" name="base_to_laser" output="screen"
           args="0 0 0 0 0 0 base_footprint laser 100"/>
-
-    <!-- Nodo RPLIDAR A1 -->
-    <node pkg="rplidar_ros" type="rplidarNode" name="rplidar_node" output="screen">
-        <param name="serial_port" value="/dev/rplidar"/>
-        <param name="serial_baudrate" value="115200"/>
-        <param name="frame_id" value="laser"/>
-        <param name="inverted" value="false"/>
-        <param name="angle_compensate" value="true"/>
-    </node>
 
     <!-- Hector SLAM -->
     <node pkg="hector_mapping" type="hector_mapping" name="hector_mapping" output="screen">
