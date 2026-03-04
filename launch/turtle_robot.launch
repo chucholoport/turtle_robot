@@ -44,6 +44,6 @@ Objetivo didáctico:
     </node>
 
     <!-- Nodo principal del robot diferencial -->
-    <node pkg="turtle_robot" type="turtle_robot.py" name="turtle_robot_node" output="screen"/>
+    <node pkg="turtle_robot" type="forward.py" name="donatelo" output="screen"/>
 
 </launch>

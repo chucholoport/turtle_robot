@@ -1,0 +1,10 @@
+<launch>
+  <!-- Activar sim_time global -->
+  <param name="use_sim_time" value="true"/>
+
+  <!-- Lanzar el mundo de TurtleBot3 -->
+  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch"/>
+
+  <!-- Nodo de navegación reactiva -->
+  <node pkg="turtle_robot" type="smart_navigator.py" name="navigator" output="screen"/>
+</launch>

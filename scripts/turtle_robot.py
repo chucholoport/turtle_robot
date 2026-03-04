@@ -36,44 +36,6 @@ Objetivo didáctico:
 - Visualizar datos reales provenientes del hardware.
 """
 
-#!/usr/bin/env python3
-"""
-Proyecto: Turtle Robot Control desde ROS hacia Arduino
-Autor: Jesús López
-Fecha: 25/11/2025
-
-Descripción:
-Este script en Python actúa como nodo principal del robot diferencial.
-Publica mensajes geometry_msgs/Twist en el tópico /cmd_vel para mover
-el robot, y se suscribe al tópico /wheel_rpm para leer las RPM
-calculadas por el Arduino.
-
-Entorno:
-- Ubuntu 20.04
-- ROS Noetic
-- Arduino UNO / Mega 2560 con rosserial_arduino
-- Paquete turtle_robot
-
-Flujo ROS:
-1. Este nodo publica mensajes Twist en /cmd_vel.
-2. El puente rosserial transmite el mensaje al Arduino.
-3. El Arduino controla los motores y calcula las RPM.
-4. El Arduino publica /wheel_rpm.
-5. Este nodo recibe y muestra las RPM en consola.
-
-Ejemplo de ejecución:
-    chmod +x scripts/turtle_robot.py
-    rosrun turtle_robot turtle_robot.py
-
-Ejemplo de publicación manual:
-    rostopic pub /cmd_vel geometry_msgs/Twist "linear: {x: 0.5}" "angular: {z: 0.0}"
-
-Objetivo didáctico:
-- Integrar control y retroalimentación en un robot diferencial.
-- Practicar publisher + subscriber en un mismo nodo.
-- Visualizar datos reales provenientes del hardware.
-"""
-
 import rospy
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float32MultiArray
