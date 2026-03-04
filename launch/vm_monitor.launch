@@ -1,0 +1,4 @@
+<launch>
+    <!-- RViz preconfigurado -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find turtle_robot)/rviz/hector_slam.rviz" />
+</launch>

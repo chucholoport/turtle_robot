@@ -37,7 +37,7 @@ Objetivo didáctico:
 
 <launch>
 
-  <!-- Lanzar el visualizador RViz -->
+  <!-- Lanzar el sensor RPLidar -->
   <include file="$(find turtle_robot)/launch/turtle_slam.launch"/>
 
   <!-- Lanzar el control del chasis con Arduino -->
