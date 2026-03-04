@@ -27,15 +27,15 @@ class SimpleNavigator:
 
         if front > self.safe_distance:
             # Camino libre: avanzar
-            self.twist.linear.x = 0.2
+            self.twist.linear.x = 2.0
             self.twist.angular.z = 0.0
         else:
             # Obstáculo enfrente: decidir hacia dónde girar
             self.twist.linear.x = 0.0
             if left > right:
-                self.twist.angular.z = 0.5  # girar izquierda
+                self.twist.angular.z = 1.5  # girar izquierda
             else:
-                self.twist.angular.z = -0.5 # girar derecha
+                self.twist.angular.z = -1.5 # girar derecha
 
         self.cmd_pub.publish(self.twist)
 
